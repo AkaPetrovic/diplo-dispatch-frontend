@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import "./globals.css";
+import "../globals.css";
+import Header from "../Header";
+import { TokenContextProvider } from "../utility/context/TokenContext";
 
 const SFPro = localFont({
-  src: "./fonts/SF-Pro.ttf",
+  src: "../fonts/SF-Pro.ttf",
   variable: "--font-sf-pro",
 });
 
@@ -21,9 +23,12 @@ const RootLayout = ({
   return (
     <html lang="en" data-theme="winter">
       <body
-        className={`${SFPro.variable} font-sf-pro font-light h-screen w-screen`}
+        className={`${SFPro.variable} h-screen w-screen font-sf-pro font-light`}
       >
-        {children}
+        <TokenContextProvider>
+          <Header />
+          {children}
+        </TokenContextProvider>
       </body>
     </html>
   );

@@ -1,10 +1,17 @@
 "use client";
 
+import { decodeToken } from "@/app/utility/auth";
+import { TokenContext } from "@/app/utility/context/TokenContext";
 import background from "@/public/background.jpg";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useContext, useState } from "react";
 
 const LoginPage = () => {
+  const router = useRouter();
+
+  const { setTokenValue } = useContext(TokenContext);
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -36,34 +43,30 @@ const LoginPage = () => {
       document.cookie = `token=${token}; path=/; max-age=${
         60 * 60 * 24
       }; secure; samesite=lax;`;
-      // setTokenValue(decodeToken(token));
-
-      // router.push("/"); //middleware doesn't work as expected
-      window.location.href = "/";
-      //with this the middleware is always working as expected with different user roles,
-      //not a great solution (because it forces a refresh)
+      setTokenValue(decodeToken(token));
+      router.push("/");
     } catch (error) {
       console.error("Login failed. Error:", error);
     }
   };
 
   return (
-    <main className="flex justify-center items-center h-full w-full relative">
+    <main className="relative flex h-full w-full items-center justify-center">
       {/* Background image */}
-      <div className="absolute h-full w-full after:absolute after:h-full after:w-full after:bg-[radial-gradient(circle,rgba(0,0,0,0)_60%,rgba(0,0,0,0.8)_100%)]">
+      <div className="absolute h-full w-full after:absolute after:h-full after:w-full after:bg-vignette">
         <Image
           alt="Background gradient image"
           src={background}
           fill
           sizes="100vw"
           quality={100}
-          className="blur-sm object-cover"
+          className="object-cover blur-sm"
         />
       </div>
 
       {/* Login form */}
-      <section className="flex flex-row relative rounded-lg p-8 glass text-gray-950">
-        <div className="px-8 border-r border-solid border-r-[#bebebe]">
+      <section className="glass relative flex flex-row rounded-lg p-8 text-gray-950">
+        <div className="border-r border-solid border-r-[#bebebe] px-8">
           <h1 className="font-bold">Sign in</h1>
           <p>Please sign in using your username and password</p>
         </div>
@@ -71,7 +74,7 @@ const LoginPage = () => {
           className="flex flex-col px-8 text-sm"
           onSubmit={(e) => handleLogin(e)}
         >
-          <label htmlFor="username" className="block left-4 mb-1 px-1">
+          <label htmlFor="username" className="left-4 mb-1 block px-1">
             Username
           </label>
           <div className="relative mb-3">
@@ -81,14 +84,13 @@ const LoginPage = () => {
               placeholder="Enter your username..."
               type="text"
               value={username}
-              className="input bg-transparent rounded-lg border-2 border-solid border-zinc-400
-                         focus:border-2 focus:border-zinc-400 focus:outline-none"
+              className="input rounded-lg border-2 border-solid border-zinc-400 bg-transparent focus:border-2 focus:border-zinc-400 focus:outline-none"
               onChange={handleInputChange}
               required
             />
           </div>
           <div className="relative mb-10">
-            <label htmlFor="password" className="block left-4 mb-1 px-1">
+            <label htmlFor="password" className="left-4 mb-1 block px-1">
               Password
             </label>
             <input
@@ -97,8 +99,7 @@ const LoginPage = () => {
               type="password"
               placeholder="Enter your password..."
               value={password}
-              className="input bg-transparent rounded-lg border-2 border-solid border-zinc-400
-                         focus:border-2 focus:border-zinc-400 focus:outline-none"
+              className="input rounded-lg border-2 border-solid border-zinc-400 bg-transparent focus:border-2 focus:border-zinc-400 focus:outline-none"
               onChange={handleInputChange}
               required
             />
