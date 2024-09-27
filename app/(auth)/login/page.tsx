@@ -65,7 +65,7 @@ const LoginPage = () => {
       </div>
 
       {/* Login form */}
-      <section className="glass relative flex flex-row rounded-lg p-8 text-gray-950">
+      <section className="relative flex flex-row rounded-lg bg-[rgba(255,255,255,0.5)] p-8 text-gray-950 backdrop-blur-md">
         <div className="border-r border-solid border-r-[#bebebe] px-8">
           <h1 className="font-bold">Sign in</h1>
           <p>Please sign in using your username and password</p>

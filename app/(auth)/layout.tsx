@@ -20,7 +20,7 @@ const RootLayout = ({
   children: React.ReactNode;
 }>) => {
   return (
-    <html lang="en" data-theme="winter">
+    <html lang="en" data-theme="lofi">
       <body
         className={`${SFPro.variable} h-screen w-screen font-sf-pro font-light`}
       >

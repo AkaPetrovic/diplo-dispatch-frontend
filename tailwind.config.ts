@@ -73,7 +73,15 @@ const config: Config = {
     }),
   ],
   daisyui: {
-    themes: ["winter"],
+    themes: [
+      {
+        lofi: {
+          ...require("daisyui/src/theming/themes")["lofi"],
+          "--animation-btn": "0.25s",
+          "--btn-focus-scale": "0.95",
+        },
+      },
+    ],
   },
 };
 export default config;

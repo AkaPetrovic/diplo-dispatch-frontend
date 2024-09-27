@@ -25,10 +25,9 @@ const HomePage = () => {
       </div>
 
       <div className="relative w-1/4 text-xl font-normal text-gray-950">
-        <h1 className="mb-3 animate-fade-in text-center text-3xl font-medium opacity-0 animation-delay-700 animation-duration-300">
-          Main menu
-        </h1>
-        <MainMenu userRole={role} />
+        <div className="absolute w-full">
+          <MainMenu userRole={role} />
+        </div>
       </div>
     </main>
   );
