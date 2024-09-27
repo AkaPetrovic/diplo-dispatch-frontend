@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import Navigation from "./Navigation";
+import { decodeToken } from "../utility/auth";
 import Profile from "./Profile";
-import { decodeToken } from "./utility/auth";
 
 const Header = () => {
   const cookieStore = cookies();

@@ -1,8 +1,8 @@
 import Image from "next/image";
 import background from "@/public/background.jpg";
-import MainMenu from "../MainMenu";
 import { cookies } from "next/headers";
 import { decodeToken } from "../utility/auth";
+import MainMenu from "../components/MainMenu";
 
 const HomePage = () => {
   const cookieStore = cookies();

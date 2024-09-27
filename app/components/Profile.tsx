@@ -1,9 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useContext } from "react";
-import { TokenContext } from "./utility/context/TokenContext";
-import CustomJwtPayload from "./types/CustomJwtPayload";
+import CustomJwtPayload from "../types/CustomJwtPayload";
 
 interface Props {
   decodedToken: CustomJwtPayload | null;
