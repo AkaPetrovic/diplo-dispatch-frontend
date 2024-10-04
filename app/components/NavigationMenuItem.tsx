@@ -9,7 +9,7 @@ const NavigationMenuItem = ({ item }: Props) => {
     <li className="h-full">
       <div
         tabIndex={0}
-        className="peer flex h-full w-36 select-none items-center justify-center rounded-none border-none bg-[rgba(255,255,255,0.5)] text-base font-light text-gray-950 shadow-none backdrop-blur-md transition-all duration-300 hover:bg-[rgba(225,225,225,0.5)]"
+        className="peer flex h-full w-36 select-none items-center justify-center rounded-none border-none bg-[rgba(255,255,255,0.5)] text-base font-light text-gray-950 shadow-none backdrop-blur-md transition-all duration-300 hover:bg-[rgba(225,225,225,0.5)] hover:shadow"
       >
         {item}
       </div>
