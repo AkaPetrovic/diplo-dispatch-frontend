@@ -10,7 +10,7 @@ const Header = () => {
 
   return (
     <nav className="absolute z-10 flex h-20 w-full flex-row justify-between text-gray-950">
-      <Navigation />
+      <Navigation decodedToken={decodedToken} />
       <div className="h-full flex-grow bg-[rgba(255,255,255,0.5)] backdrop-blur-md"></div>
       <Profile decodedToken={decodedToken} />
     </nav>
