@@ -1,5 +1,7 @@
 "use client";
 
+import DialogModal from "@/app/components/DialogModal";
+import InputField from "@/app/components/InputField";
 import Manufacturer from "@/app/types/Manufacturer";
 import Truck from "@/app/types/Truck";
 import { useEffect, useState } from "react";
@@ -14,8 +16,18 @@ const AddTruckPage = () => {
     carryingCapacity: 0,
     manufacturer: { id: 0, name: "" }, //temporary value until the manufacturers are loaded
   });
-
   const [selectedManufacturerId, setSelectedManufacturerId] = useState(0);
+
+  const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true);
+
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const [dialogModalMessage, setDialogModalMessage] = useState("");
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const handleDialogModalClose = () => {
+    setIsDialogOpen(false);
+  };
 
   //Getting the manufacturers
   useEffect(() => {
@@ -53,6 +65,16 @@ const AddTruckPage = () => {
     }
   }, [manufacturers]);
 
+  useEffect(() => {
+    setErrorMessage("");
+
+    if (truckData.model !== "") {
+      setIsSaveButtonDisabled(false);
+    } else {
+      setIsSaveButtonDisabled(true);
+    }
+  }, [truckData]);
+
   //For handling manufacturer change
   useEffect(() => {
     const manufacturerById = manufacturers?.find(
@@ -67,6 +89,21 @@ const AddTruckPage = () => {
       }));
     }
   }, [selectedManufacturerId]);
+
+  const removeLeadingZeros = (e: React.FormEvent<HTMLInputElement>) => {
+    const input = e.currentTarget;
+    if (input.value.startsWith("0") && input.value.length > 1) {
+      input.value = input.value.replace(/^0+/, ""); // Remove leading zeros visually
+    }
+  };
+
+  const validateInput = () => {
+    if (truckData.year < 1990) {
+      setErrorMessage("Year cannot be a number less than 1990");
+      return false;
+    }
+    return true;
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -117,11 +154,13 @@ const AddTruckPage = () => {
           break;
 
         case "year":
-          // Year: number greater than 1990
-          if (Number(value) > 1990) {
+          // Year: accept non-negative numbers that are up to 4 digits long
+          if (/^\d{1,4}$/.test(value)) {
             newValue = Number(value);
           } else {
-            console.log("Year must be greater than 1990.");
+            console.log(
+              "Year must be a non-negative number with up to 4 digits.",
+            );
             return prevData;
           }
           break;
@@ -152,23 +191,58 @@ const AddTruckPage = () => {
     });
   };
 
-  const removeLeadingZeros = (e: React.FormEvent<HTMLInputElement>) => {
-    const input = e.currentTarget;
-    if (input.value.startsWith("0") && input.value.length > 1) {
-      input.value = input.value.replace(/^0+/, ""); // Remove leading zeros visually
+  const handleSave = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!validateInput()) return;
+
+    try {
+      const token = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("token="))
+        ?.split("=")[1];
+
+      const response = await fetch("http://localhost:8080/api/trucks/add", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token ? `Bearer ${token}` : "",
+        },
+        body: JSON.stringify(truckData),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(errorText);
+      }
+
+      const result = await response.text();
+      setDialogModalMessage(result);
+      setIsDialogOpen(true);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error("Error:", error.message);
+      } else {
+        console.error("Unexpected error:", error);
+      }
     }
   };
-
-  console.log(truckData);
 
   return (
     <main className="flex h-full w-full flex-col items-center justify-center">
       <div className="w-1/4 min-w-fit px-8 py-5 shadow">
-        <div className="flex justify-center">
-          <h1 className="mb-7 w-full max-w-xs">Add new truck</h1>
+        <div className="flex flex-col items-center">
+          <h1 className="mb-2 w-full max-w-xs">Add new truck</h1>
+          <p className="w-full max-w-xs">Fields marked with * are required</p>
+          {errorMessage ? (
+            <p className="w-full max-w-xs text-red-500">{errorMessage}</p>
+          ) : null}
         </div>
 
-        <form className="flex flex-col items-center gap-3">
+        <form
+          onSubmit={handleSave}
+          className="mt-7 flex flex-col items-center gap-3"
+        >
           <label className="form-control mb-3 w-full max-w-xs">
             <div className="label">
               <span className="label-text">Select the truck manufacturer</span>
@@ -190,88 +264,67 @@ const AddTruckPage = () => {
             </select>
           </label>
 
-          <div className="w-full max-w-xs">
-            <label htmlFor="model" className="block px-1 py-2 text-sm">
-              Model
-            </label>
-            <input
-              id="model"
-              name="model"
-              type="text"
-              value={truckData.model}
-              onChange={handleInputChange}
-              placeholder="Type here"
-              className="input input-bordered w-full"
-            />
-          </div>
-          <div className="w-full max-w-xs">
-            <label htmlFor="power" className="block px-1 py-2 text-sm">
-              Power (HP)
-            </label>
-            <input
-              id="power"
-              name="power"
-              type="number"
-              value={truckData.power}
-              onChange={handleInputChange}
-              onInput={removeLeadingZeros}
-              placeholder="Type here"
-              className="input input-bordered w-full"
-            />
-          </div>
-          <div className="w-full max-w-xs">
-            <label
-              htmlFor="kilometersTravelled"
-              className="block px-1 py-2 text-sm"
-            >
-              Kilometers travelled
-            </label>
-            <input
-              id="kilometersTravelled"
-              name="kilometersTravelled"
-              type="number"
-              value={truckData.kilometersTravelled}
-              onChange={handleInputChange}
-              onInput={removeLeadingZeros}
-              placeholder="Type here"
-              className="input input-bordered w-full"
-            />
-          </div>
-          <div className="w-full max-w-xs">
-            <label htmlFor="year" className="block px-1 py-2 text-sm">
-              Year
-            </label>
-            <input
-              id="year"
-              name="year"
-              type="number"
-              value={truckData.year}
-              onChange={handleInputChange}
-              onInput={removeLeadingZeros}
-              placeholder="Type here"
-              className="input input-bordered w-full"
-            />
-          </div>
-          <div className="w-full max-w-xs">
-            <label
-              htmlFor="carryingCapacity"
-              className="block px-1 py-2 text-sm"
-            >
-              Carrying capacity (t)
-            </label>
-            <input
-              id="carryingCapacity"
-              name="carryingCapacity"
-              type="number"
-              value={truckData.carryingCapacity}
-              onChange={handleInputChange}
-              onInput={removeLeadingZeros}
-              placeholder="Type here"
-              className="input input-bordered w-full"
-            />
-          </div>
+          <InputField
+            id="model"
+            name="model"
+            type="text"
+            value={truckData.model}
+            label="Model"
+            autoComplete="off"
+            onChange={handleInputChange}
+          />
+          <InputField
+            id="power"
+            name="power"
+            type="number"
+            value={truckData.power}
+            label="Power (HP)"
+            onChange={handleInputChange}
+            onInput={removeLeadingZeros}
+          />
+          <InputField
+            id="kilometersTravelled"
+            name="kilometersTravelled"
+            type="number"
+            value={truckData.kilometersTravelled}
+            label="Kilometers Travelled"
+            onChange={handleInputChange}
+            onInput={removeLeadingZeros}
+          />
+          <InputField
+            id="year"
+            name="year"
+            type="number"
+            value={truckData.year}
+            label="Year"
+            onChange={handleInputChange}
+            onInput={removeLeadingZeros}
+          />
+          <InputField
+            id="carryingCapacity"
+            name="carryingCapacity"
+            type="number"
+            value={truckData.carryingCapacity}
+            label="Carrying Capacity (tons)"
+            onChange={handleInputChange}
+            onInput={removeLeadingZeros}
+          />
+          <button
+            type="submit"
+            disabled={isSaveButtonDisabled}
+            className="btn btn-neutral mt-10 w-full max-w-xs rounded-full"
+          >
+            Save
+          </button>
         </form>
       </div>
+
+      {/* Modal dialog box */}
+      <DialogModal
+        message={dialogModalMessage}
+        isOpen={isDialogOpen}
+        onClose={handleDialogModalClose}
+      />
     </main>
   );
 };

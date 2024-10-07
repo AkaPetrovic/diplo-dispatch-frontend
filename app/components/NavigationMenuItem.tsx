@@ -2,10 +2,10 @@ import Link from "next/link";
 import NavigationMenuItemOption from "./NavigationMenuItemOption";
 
 interface Props {
-  item: String;
-  options: String[];
+  item: string;
+  options: string[];
   isLink: boolean;
-  link?: String;
+  link?: string;
 }
 
 const NavigationMenuItem = ({ item, options, isLink, link }: Props) => {

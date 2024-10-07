@@ -3,8 +3,8 @@
 import Link from "next/link";
 
 interface Props {
-  action: String;
-  link: String;
+  action: string;
+  link: string;
 }
 
 const MainMenuItem = ({ action, link }: Props) => {

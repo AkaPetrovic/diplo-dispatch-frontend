@@ -1,7 +1,7 @@
 import MainMenuItem from "./MainMenuItem";
 
 interface Props {
-  userRole: String | null;
+  userRole: string | null;
 }
 
 const MainMenu = ({ userRole }: Props) => {
