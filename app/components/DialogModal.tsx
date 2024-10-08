@@ -36,8 +36,6 @@ const DialogModal: React.FC<DialogModalProps> = ({
     }
   }, [isOpen]);
 
-  console.log(isOpen);
-
   return (
     <dialog ref={dialogRef} className="modal">
       <div className="modal-box">

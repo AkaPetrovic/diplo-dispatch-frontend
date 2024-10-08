@@ -18,16 +18,12 @@ const AddTruckPage = () => {
   });
   const [selectedManufacturerId, setSelectedManufacturerId] = useState(0);
 
-  const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true);
-
   const [errorMessage, setErrorMessage] = useState("");
+
+  const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true);
 
   const [dialogModalMessage, setDialogModalMessage] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-
-  const handleDialogModalClose = () => {
-    setIsDialogOpen(false);
-  };
 
   //Getting the manufacturers
   useEffect(() => {
@@ -105,6 +101,10 @@ const AddTruckPage = () => {
     return true;
   };
 
+  const handleDialogModalClose = () => {
+    setIsDialogOpen(false);
+  };
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
@@ -134,9 +134,6 @@ const AddTruckPage = () => {
           if (/^\d{1,3}$/.test(value)) {
             newValue = Number(value);
           } else {
-            console.log(
-              "Power must be a non-negative number with up to 3 digits.",
-            );
             return prevData; // Skip the update if validation fails
           }
           break;
@@ -146,9 +143,6 @@ const AddTruckPage = () => {
           if (/^\d{1,7}(\.\d{1,2})?$/.test(value)) {
             newValue = Number(value);
           } else {
-            console.log(
-              "Kilometers Travelled must be a non-negative number with up to 7 digits and 2 decimal places.",
-            );
             return prevData;
           }
           break;
@@ -158,9 +152,6 @@ const AddTruckPage = () => {
           if (/^\d{1,4}$/.test(value)) {
             newValue = Number(value);
           } else {
-            console.log(
-              "Year must be a non-negative number with up to 4 digits.",
-            );
             return prevData;
           }
           break;
@@ -170,9 +161,6 @@ const AddTruckPage = () => {
           if (/^\d{1,3}(\.\d{1,2})?$/.test(value)) {
             newValue = Number(value);
           } else {
-            console.log(
-              "Carrying Capacity must be a non-negative number with up to 3 digits and 2 decimal places.",
-            );
             return prevData;
           }
           break;
@@ -231,21 +219,20 @@ const AddTruckPage = () => {
   return (
     <main className="flex h-full w-full flex-col items-center justify-center">
       <div className="w-1/4 min-w-fit px-8 py-5 shadow">
-        <div className="flex flex-col items-center">
-          <h1 className="mb-2 w-full max-w-xs">Add new truck</h1>
-          <p className="w-full max-w-xs">Fields marked with * are required</p>
+        <div className="flex flex-col">
+          <h1 className="mb-2">Add new truck</h1>
+          <p className="w-full max-w-xs text-sm">
+            Fields marked with * are required
+          </p>
           {errorMessage ? (
             <p className="w-full max-w-xs text-red-500">{errorMessage}</p>
           ) : null}
         </div>
 
-        <form
-          onSubmit={handleSave}
-          className="mt-7 flex flex-col items-center gap-3"
-        >
-          <label className="form-control mb-3 w-full max-w-xs">
+        <form onSubmit={handleSave} className="mt-7 flex flex-col gap-3">
+          <label className="form-control w-full max-w-xs">
             <div className="label">
-              <span className="label-text">Select the truck manufacturer</span>
+              <span className="label-text">Manufacturer*</span>
             </div>
             <select
               id="manufacturer"
@@ -269,7 +256,7 @@ const AddTruckPage = () => {
             name="model"
             type="text"
             value={truckData.model}
-            label="Model"
+            label="Model*"
             autoComplete="off"
             onChange={handleInputChange}
           />
@@ -278,7 +265,7 @@ const AddTruckPage = () => {
             name="power"
             type="number"
             value={truckData.power}
-            label="Power (HP)"
+            label="Power (HP)*"
             onChange={handleInputChange}
             onInput={removeLeadingZeros}
           />
@@ -287,7 +274,7 @@ const AddTruckPage = () => {
             name="kilometersTravelled"
             type="number"
             value={truckData.kilometersTravelled}
-            label="Kilometers Travelled"
+            label="Kilometers travelled*"
             onChange={handleInputChange}
             onInput={removeLeadingZeros}
           />
@@ -296,7 +283,7 @@ const AddTruckPage = () => {
             name="year"
             type="number"
             value={truckData.year}
-            label="Year"
+            label="Year*"
             onChange={handleInputChange}
             onInput={removeLeadingZeros}
           />
@@ -305,7 +292,7 @@ const AddTruckPage = () => {
             name="carryingCapacity"
             type="number"
             value={truckData.carryingCapacity}
-            label="Carrying Capacity (tons)"
+            label="Carrying Capacity (tons)*"
             onChange={handleInputChange}
             onInput={removeLeadingZeros}
           />
