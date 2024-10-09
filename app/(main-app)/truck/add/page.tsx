@@ -23,6 +23,9 @@ const AddTruckPage = () => {
   const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true);
 
   const [dialogModalMessage, setDialogModalMessage] = useState("");
+  const [dialogModalType, setDialogModalType] = useState<"message" | "confirm">(
+    "message",
+  );
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   //Getting the manufacturers
@@ -185,6 +188,17 @@ const AddTruckPage = () => {
     if (!validateInput()) return;
 
     try {
+      setTruckData({
+        model: "",
+        power: 0,
+        kilometersTravelled: 0,
+        year: 0,
+        carryingCapacity: 0,
+        manufacturer: manufacturers ? manufacturers[0] : { id: 0, name: "" },
+      });
+      setSelectedManufacturerId(manufacturers ? manufacturers[0].id : 0);
+      setIsSaveButtonDisabled(true);
+
       const token = document.cookie
         .split("; ")
         .find((row) => row.startsWith("token="))
@@ -205,6 +219,8 @@ const AddTruckPage = () => {
       }
 
       const result = await response.text();
+
+      setDialogModalType("message");
       setDialogModalMessage(result);
       setIsDialogOpen(true);
     } catch (error: unknown) {
@@ -299,7 +315,7 @@ const AddTruckPage = () => {
           <button
             type="submit"
             disabled={isSaveButtonDisabled}
-            className="btn btn-neutral mt-10 w-full max-w-xs rounded-full"
+            className="btn btn-neutral mt-10 w-full max-w-xs self-center rounded-full"
           >
             Save
           </button>
@@ -311,6 +327,7 @@ const AddTruckPage = () => {
         message={dialogModalMessage}
         isOpen={isDialogOpen}
         onClose={handleDialogModalClose}
+        type={dialogModalType}
       />
     </main>
   );

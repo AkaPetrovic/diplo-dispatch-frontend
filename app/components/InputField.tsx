@@ -8,7 +8,7 @@ interface InputProps {
   label: string;
   autoComplete?: string;
   disabled?: boolean;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onInput?: (e: React.FormEvent<HTMLInputElement>) => void;
 }
 

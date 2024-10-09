@@ -4,12 +4,16 @@ interface DialogModalProps {
   message: string;
   isOpen: boolean;
   onClose: () => void;
+  onConfirm?: () => void;
+  type: "message" | "confirm";
 }
 
 const DialogModal: React.FC<DialogModalProps> = ({
   message,
   isOpen,
   onClose,
+  onConfirm,
+  type,
 }) => {
   const dialogRef = useRef<HTMLDialogElement | null>(null);
 
@@ -43,6 +47,17 @@ const DialogModal: React.FC<DialogModalProps> = ({
         <p className="py-4">{message}</p>
         <div className="modal-action">
           <form method="dialog">
+            {type === "confirm" && onConfirm ? (
+              <button
+                className="btn mr-3 focus:outline-none"
+                onClick={() => {
+                  onConfirm();
+                  onClose();
+                }}
+              >
+                Confirm
+              </button>
+            ) : null}
             <button className="btn focus:outline-none" onClick={onClose}>
               Close
             </button>

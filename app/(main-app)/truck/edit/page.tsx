@@ -23,6 +23,9 @@ const EditTruckPage = () => {
   const [errorMessage, setErrorMessage] = useState("");
 
   const [dialogModalMessage, setDialogModalMessage] = useState("");
+  const [dialogModalType, setDialogModalType] = useState<"message" | "confirm">(
+    "message",
+  );
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const [truckData, setTruckData] = useState<Truck>({
@@ -71,6 +74,21 @@ const EditTruckPage = () => {
     }
   }, [manufacturers]);
 
+  //For handling manufacturer change
+  useEffect(() => {
+    const manufacturerById = manufacturers?.find(
+      (manufacturer) => manufacturer.id === selectedManufacturerId,
+    );
+
+    //If a manufacturer has been found by the find() function
+    if (manufacturerById) {
+      setTruckData((prevData) => ({
+        ...prevData,
+        manufacturer: manufacturerById,
+      }));
+    }
+  }, [selectedManufacturerId]);
+
   useEffect(() => {
     setErrorMessage("");
 
@@ -99,6 +117,20 @@ const EditTruckPage = () => {
   const handleLoadTrucks = async () => {
     if (manufacturers) {
       try {
+        setSelectedTruck(null);
+        setSelectedTableRow(-1);
+        setTruckData({
+          model: "",
+          power: 0,
+          kilometersTravelled: 0,
+          year: 0,
+          carryingCapacity: 0,
+          manufacturer: manufacturers[0],
+        });
+        setIsSaveButtonDisabled(true);
+        setSelectedManufacturerId(manufacturers[0].id);
+        setIsFormDisabled(true);
+
         const token = document.cookie
           .split("; ")
           .find((row) => row.startsWith("token="))
@@ -120,13 +152,13 @@ const EditTruckPage = () => {
 
         const loadedTrucksData = await resTrucksByManufacturer.json();
         setLoadedTrucks(loadedTrucksData);
+
         setDialogModalMessage("Trucks have been found in the database.");
         setIsDialogOpen(true);
       } catch (error: unknown) {
         if (error instanceof Error) {
           setLoadedTrucks([]);
-          setSelectedTruck(null);
-          setSelectedTableRow(-1);
+
           setDialogModalMessage(error.message);
           setIsDialogOpen(true);
         } else {
@@ -137,8 +169,10 @@ const EditTruckPage = () => {
   };
 
   const handleChooseTruck = () => {
+    console.log(selectedTruck);
     if (selectedTruck) {
       setTruckData(selectedTruck);
+      setSelectedManufacturerId(selectedTruck.manufacturer.id);
       setIsFormDisabled(false);
       setDialogModalMessage("The form has been populated with truck data.");
       setIsDialogOpen(true);
@@ -237,6 +271,24 @@ const EditTruckPage = () => {
     if (!validateInput()) return;
 
     try {
+      setSelectedManufacturerIdForSearch(
+        manufacturers ? manufacturers[0].id : 0,
+      );
+      setLoadedTrucks([]);
+      setSelectedTruck(null);
+      setSelectedTableRow(-1);
+      setTruckData({
+        model: "",
+        power: 0,
+        kilometersTravelled: 0,
+        year: 0,
+        carryingCapacity: 0,
+        manufacturer: manufacturers ? manufacturers[0] : { id: 0, name: "" },
+      });
+      setSelectedManufacturerId(manufacturers ? manufacturers[0].id : 0);
+      setIsSaveButtonDisabled(true);
+      setIsFormDisabled(true);
+
       const token = document.cookie
         .split("; ")
         .find((row) => row.startsWith("token="))
@@ -368,7 +420,6 @@ const EditTruckPage = () => {
             type="text"
             value={truckData.id ? truckData.id : ""}
             label="ID"
-            autoComplete="off"
             disabled={true}
             onChange={handleInputChange}
           />
@@ -459,6 +510,7 @@ const EditTruckPage = () => {
         message={dialogModalMessage}
         isOpen={isDialogOpen}
         onClose={handleDialogModalClose}
+        type={dialogModalType}
       />
     </main>
   );
