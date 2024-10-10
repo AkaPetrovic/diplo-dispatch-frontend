@@ -7,6 +7,7 @@ interface InputProps {
   value: string | number;
   label: string;
   autoComplete?: string;
+  placeholder?: string;
   disabled?: boolean;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onInput?: (e: React.FormEvent<HTMLInputElement>) => void;
@@ -19,6 +20,7 @@ const InputField = ({
   value,
   label,
   autoComplete = "on",
+  placeholder = "",
   disabled = false,
   onChange,
   onInput,
@@ -34,6 +36,7 @@ const InputField = ({
         type={type}
         value={value}
         autoComplete={autoComplete}
+        placeholder={placeholder}
         disabled={disabled}
         onChange={onChange}
         onInput={onInput}

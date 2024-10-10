@@ -9,3 +9,10 @@ export const decodeToken = (token: string | undefined) => {
     return null;
   }
 };
+
+export const getTokenClientSide = () => {
+  return document.cookie
+    .split("; ")
+    .find((row) => row.startsWith("token="))
+    ?.split("=")[1];
+};
