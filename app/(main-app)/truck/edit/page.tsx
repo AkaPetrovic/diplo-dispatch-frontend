@@ -368,44 +368,42 @@ const EditTruckPage = () => {
           </button>
         </div>
 
-        <>
-          <div className="overflow-x-auto">
-            <table className="table table-sm">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Manufacturer</th>
-                  <th>Model</th>
-                  <th>Power</th>
-                  <th>Kilometers travelled</th>
-                  <th>Year</th>
-                  <th>Carrying capacity</th>
-                </tr>
-              </thead>
-              {loadedTrucks && loadedTrucks.length > 0 ? (
-                <tbody>
-                  {loadedTrucks.map((truck, index) => (
-                    <tr
-                      key={truck.id}
-                      className={`${index === selectedTableRow ? "bg-primary text-primary-content" : ""} cursor-pointer`}
-                      onClick={() =>
-                        handleRowClick(truck.id ? truck.id : 0, index)
-                      }
-                    >
-                      <th>{truck.id}</th>
-                      <td>{truck.manufacturer.name}</td>
-                      <td>{truck.model}</td>
-                      <td>{truck.power}HP</td>
-                      <td>{truck.kilometersTravelled}km</td>
-                      <td>{truck.year}</td>
-                      <td>{truck.carryingCapacity}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              ) : null}
-            </table>
-          </div>
-        </>
+        <div className="overflow-x-auto">
+          <table className="table table-sm">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Manufacturer</th>
+                <th>Model</th>
+                <th>Power</th>
+                <th>Kilometers travelled</th>
+                <th>Year</th>
+                <th>Carrying capacity</th>
+              </tr>
+            </thead>
+            {loadedTrucks && loadedTrucks.length > 0 ? (
+              <tbody>
+                {loadedTrucks.map((truck, index) => (
+                  <tr
+                    key={truck.id}
+                    className={`${index === selectedTableRow ? "bg-primary text-primary-content" : ""} cursor-pointer`}
+                    onClick={() =>
+                      handleRowClick(truck.id ? truck.id : 0, index)
+                    }
+                  >
+                    <th>{truck.id}</th>
+                    <td>{truck.manufacturer.name}</td>
+                    <td>{truck.model}</td>
+                    <td>{truck.power}HP</td>
+                    <td>{truck.kilometersTravelled}km</td>
+                    <td>{truck.year}</td>
+                    <td>{truck.carryingCapacity}</td>
+                  </tr>
+                ))}
+              </tbody>
+            ) : null}
+          </table>
+        </div>
 
         <button
           type="button"

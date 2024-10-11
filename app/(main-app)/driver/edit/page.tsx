@@ -367,40 +367,38 @@ const EditDriverPage = () => {
           </button>
         </div>
 
-        <>
-          <div className="overflow-x-auto">
-            <table className="table table-sm">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Name</th>
-                  <th>Surname</th>
-                  <th>Birthdate</th>
-                  <th>Truck</th>
-                </tr>
-              </thead>
-              {loadedDrivers && loadedDrivers.length > 0 ? (
-                <tbody>
-                  {loadedDrivers.map((driver, index) => (
-                    <tr
-                      key={driver.id}
-                      className={`${index === selectedTableRow ? "bg-primary text-primary-content" : ""} cursor-pointer`}
-                      onClick={() =>
-                        handleRowClick(driver.id ? driver.id : 0, index)
-                      }
-                    >
-                      <th>{driver.id}</th>
-                      <td>{driver.name}</td>
-                      <td>{driver.surname}</td>
-                      <td>{driver.birthdate}</td>
-                      <td>{`${driver.truck.manufacturer.name} ${driver.truck.model}`}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              ) : null}
-            </table>
-          </div>
-        </>
+        <div className="overflow-x-auto">
+          <table className="table table-sm">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Birthdate</th>
+                <th>Truck</th>
+              </tr>
+            </thead>
+            {loadedDrivers && loadedDrivers.length > 0 ? (
+              <tbody>
+                {loadedDrivers.map((driver, index) => (
+                  <tr
+                    key={driver.id}
+                    className={`${index === selectedTableRow ? "bg-primary text-primary-content" : ""} cursor-pointer`}
+                    onClick={() =>
+                      handleRowClick(driver.id ? driver.id : 0, index)
+                    }
+                  >
+                    <th>{driver.id}</th>
+                    <td>{driver.name}</td>
+                    <td>{driver.surname}</td>
+                    <td>{driver.birthdate}</td>
+                    <td>{`${driver.truck.manufacturer.name} ${driver.truck.model}`}</td>
+                  </tr>
+                ))}
+              </tbody>
+            ) : null}
+          </table>
+        </div>
 
         <button
           type="button"
