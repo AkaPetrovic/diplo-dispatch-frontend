@@ -153,12 +153,14 @@ const EditTruckPage = () => {
         const loadedTrucksData = await resTrucksByManufacturer.json();
         setLoadedTrucks(loadedTrucksData);
 
+        setDialogModalType("message");
         setDialogModalMessage("Trucks have been found in the database.");
         setIsDialogOpen(true);
       } catch (error: unknown) {
         if (error instanceof Error) {
           setLoadedTrucks([]);
 
+          setDialogModalType("message");
           setDialogModalMessage(error.message);
           setIsDialogOpen(true);
         } else {
@@ -169,12 +171,13 @@ const EditTruckPage = () => {
   };
 
   const handleChooseTruck = () => {
-    console.log(selectedTruck);
     if (selectedTruck) {
       setTruckData(selectedTruck);
       setSelectedManufacturerId(selectedTruck.manufacturer.id);
       setIsFormDisabled(false);
-      setDialogModalMessage("The form has been populated with truck data.");
+
+      setDialogModalType("message");
+      setDialogModalMessage("The form has been populated with truck's data.");
       setIsDialogOpen(true);
     }
   };
@@ -309,6 +312,8 @@ const EditTruckPage = () => {
       }
 
       const result = await response.text();
+
+      setDialogModalType("message");
       setDialogModalMessage(result);
       setIsDialogOpen(true);
     } catch (error: unknown) {
@@ -415,13 +420,12 @@ const EditTruckPage = () => {
 
         <form onSubmit={handleUpdate} className="mt-7 flex flex-col gap-3">
           <InputField
-            id="model"
-            name="model"
+            id="id"
+            name="id"
             type="text"
             value={truckData.id ? truckData.id : ""}
             label="ID"
             disabled={true}
-            onChange={handleInputChange}
           />
           <label className="form-control mb-3 w-full max-w-xs">
             <div className="label">

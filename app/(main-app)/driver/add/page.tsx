@@ -62,6 +62,19 @@ const AddDriverPage = () => {
     }
   }, [trucks]);
 
+  //For handling truck change
+  useEffect(() => {
+    const truckById = trucks?.find((truck) => truck.id === selectedTruckId);
+
+    //If a truck has been found by the find() function
+    if (truckById) {
+      setDriverData((prevData) => ({
+        ...prevData,
+        truck: truckById,
+      }));
+    }
+  }, [selectedTruckId]);
+
   useEffect(() => {
     setErrorMessage("");
 
