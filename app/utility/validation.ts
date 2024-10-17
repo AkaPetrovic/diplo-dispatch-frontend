@@ -35,6 +35,17 @@ export const isValidDate = (dateStr: string): boolean => {
   return true;
 };
 
+export const isValidTime = (timeString: string): boolean => {
+  // Check if the time string matches the hh:mm format using a regex
+  const timeFormat = /^([01]\d|2[0-3]):([0-5]\d)$/;
+
+  if (!timeFormat.test(timeString)) {
+    return false; // If time does not match the format hh:mm
+  }
+
+  return true; // If the time is valid
+};
+
 const isLeapYear = (year: number): boolean => {
   return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
 };

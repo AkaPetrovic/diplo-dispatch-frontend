@@ -5,6 +5,7 @@ import InputField from "@/app/components/InputField";
 import ErrorMessage from "@/app/types/ErrorMessage";
 import Manufacturer from "@/app/types/Manufacturer";
 import Truck from "@/app/types/Truck";
+import { removeLeadingZeros } from "@/app/utility/helper";
 import { useEffect, useState } from "react";
 
 const EditTruckPage = () => {
@@ -104,13 +105,6 @@ const EditTruckPage = () => {
     if (truckById) {
       setSelectedTruck(truckById);
       setSelectedTableRow(rowIndex);
-    }
-  };
-
-  const removeLeadingZeros = (e: React.FormEvent<HTMLInputElement>) => {
-    const input = e.currentTarget;
-    if (input.value.startsWith("0") && input.value.length > 1) {
-      input.value = input.value.replace(/^0+/, ""); // Remove leading zeros visually
     }
   };
 

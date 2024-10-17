@@ -4,6 +4,7 @@ import DialogModal from "@/app/components/DialogModal";
 import InputField from "@/app/components/InputField";
 import Manufacturer from "@/app/types/Manufacturer";
 import Truck from "@/app/types/Truck";
+import { removeLeadingZeros } from "@/app/utility/helper";
 import { useEffect, useState } from "react";
 
 const AddTruckPage = () => {
@@ -89,13 +90,6 @@ const AddTruckPage = () => {
     }
   }, [selectedManufacturerId]);
 
-  const removeLeadingZeros = (e: React.FormEvent<HTMLInputElement>) => {
-    const input = e.currentTarget;
-    if (input.value.startsWith("0") && input.value.length > 1) {
-      input.value = input.value.replace(/^0+/, ""); // Remove leading zeros visually
-    }
-  };
-
   const validateInput = () => {
     if (truckData.year < 1990) {
       setErrorMessage("Year cannot be a number less than 1990");
@@ -123,11 +117,6 @@ const AddTruckPage = () => {
       ) {
         if (newValue === "") {
           return { ...prevData, [name]: 0 };
-        }
-
-        // Remove leading zero if the value is not "0"
-        if (newValue.startsWith("0") && newValue !== "0") {
-          newValue = newValue.replace(/^0+/, "");
         }
       }
       // Validate each field based on its name
