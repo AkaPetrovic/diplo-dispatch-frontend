@@ -27,7 +27,7 @@ const InputField = ({
 }: InputProps) => {
   return (
     <div className="w-full">
-      <label htmlFor={id} className="block px-1 py-2 text-sm">
+      <label htmlFor={id} className="block px-1 pb-1 pt-2 text-sm 3xl:py-2">
         {label}
       </label>
       <input
@@ -40,7 +40,7 @@ const InputField = ({
         disabled={disabled}
         onChange={onChange}
         onInput={onInput}
-        className="input input-bordered h-10 w-full 3xl:h-12"
+        className="input input-bordered h-10 w-full text-sm 3xl:h-12 3xl:text-base"
       />
     </div>
   );

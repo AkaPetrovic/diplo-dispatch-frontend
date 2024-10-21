@@ -230,7 +230,9 @@ const AddTruckPage = () => {
             Fields marked with * are required
           </p>
           {errorMessage ? (
-            <p className="w-full max-w-xs text-red-500">{errorMessage}</p>
+            <p className="w-full max-w-xs text-sm text-red-500">
+              {errorMessage}
+            </p>
           ) : null}
         </div>
 
@@ -239,7 +241,7 @@ const AddTruckPage = () => {
           className="mt-2 flex flex-col 3xl:mt-7 3xl:gap-3"
         >
           <label className="form-control w-full max-w-xs">
-            <div className="label">
+            <div className="label px-1 pb-1 pt-2 3xl:py-2">
               <span className="label-text">Manufacturer*</span>
             </div>
             <select

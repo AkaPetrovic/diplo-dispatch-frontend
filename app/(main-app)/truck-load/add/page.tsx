@@ -438,215 +438,227 @@ const AddTruckLoadPage = () => {
 
   return (
     <main className="flex h-full w-full flex-col items-center justify-center">
-      <div className="w-1/4 min-w-fit px-8 py-5 shadow">
+      <div className="w-3/5 min-w-fit px-6 py-3 shadow 3xl:w-1/4 3xl:px-8 3xl:py-5">
         <div className="flex flex-col">
           <h1 className="mb-2">Add new truck load</h1>
           <p className="w-full max-w-xs text-sm">
             Fields marked with * are required
           </p>
           {errorMessage ? (
-            <p className="w-full max-w-xs text-red-500">{errorMessage}</p>
+            <p className="w-full max-w-xs text-sm text-red-500">
+              {errorMessage}
+            </p>
           ) : null}
         </div>
 
-        <form onSubmit={handleSave} className="mt-7 flex flex-col gap-3">
-          <label className="form-control w-full max-w-xs">
-            <div className="label">
-              <span className="label-text">Driver*</span>
-            </div>
-            <select
-              id="driver"
-              name="driver"
-              value={selectedDriverId}
-              onChange={(e) => setSelectedDriverId(Number(e.target.value))}
-              className="select select-bordered"
-            >
-              {drivers?.map((driver) => (
-                <option key={driver.id} value={driver.id}>
-                  {`${driver.id} | ${driver.name} ${driver.surname}`}
-                </option>
-              ))}
-            </select>
-          </label>
+        <form
+          onSubmit={handleSave}
+          className="mt-2 flex flex-col 3xl:mt-7 3xl:gap-3"
+        >
+          <div className="flex 3xl:flex-col">
+            <div className="w-3/5 border-r pr-3 3xl:mb-2 3xl:w-full 3xl:border-none 3xl:p-0">
+              <h2>Truck load data</h2>
+              <label className="form-control w-full max-w-xs">
+                <div className="label px-1 pb-1 pt-2 3xl:py-2">
+                  <span className="label-text">Driver*</span>
+                </div>
+                <select
+                  id="driver"
+                  name="driver"
+                  value={selectedDriverId}
+                  onChange={(e) => setSelectedDriverId(Number(e.target.value))}
+                  className="select select-bordered h-10 min-h-10 3xl:h-12 3xl:min-h-12"
+                >
+                  {drivers?.map((driver) => (
+                    <option key={driver.id} value={driver.id}>
+                      {`${driver.id} | ${driver.name} ${driver.surname}`}
+                    </option>
+                  ))}
+                </select>
+              </label>
 
-          <div className="flex gap-3">
-            <InputField
-              id="startDate"
-              name="startDate"
-              type="text"
-              value={truckLoadData.startDate}
-              label="Departure date*"
-              autoComplete="off"
-              placeholder="DD/MM/YYYY"
-              onChange={handleTruckLoadDataInputChange}
-            />
-            <InputField
-              id="endDate"
-              name="endDate"
-              type="text"
-              value={truckLoadData.endDate}
-              label="Arrival date*"
-              autoComplete="off"
-              placeholder="DD/MM/YYYY"
-              onChange={handleTruckLoadDataInputChange}
-            />
-          </div>
+              <div className="flex gap-4">
+                <InputField
+                  id="startDate"
+                  name="startDate"
+                  type="text"
+                  value={truckLoadData.startDate}
+                  label="Departure date*"
+                  autoComplete="off"
+                  placeholder="DD/MM/YYYY"
+                  onChange={handleTruckLoadDataInputChange}
+                />
+                <InputField
+                  id="endDate"
+                  name="endDate"
+                  type="text"
+                  value={truckLoadData.endDate}
+                  label="Arrival date*"
+                  autoComplete="off"
+                  placeholder="DD/MM/YYYY"
+                  onChange={handleTruckLoadDataInputChange}
+                />
+              </div>
 
-          <div className="flex gap-3">
-            <InputField
-              id="startTime"
-              name="startTime"
-              type="text"
-              value={truckLoadData.startTime}
-              label="Departure time*"
-              autoComplete="off"
-              placeholder="hh:mm"
-              onChange={handleTruckLoadDataInputChange}
-            />
-            <InputField
-              id="endTime"
-              name="endTime"
-              type="text"
-              value={truckLoadData.endTime}
-              label="Arrival time*"
-              autoComplete="off"
-              placeholder="hh:mm"
-              onChange={handleTruckLoadDataInputChange}
-            />
-          </div>
+              <div className="flex gap-4">
+                <InputField
+                  id="startTime"
+                  name="startTime"
+                  type="text"
+                  value={truckLoadData.startTime}
+                  label="Departure time*"
+                  autoComplete="off"
+                  placeholder="hh:mm"
+                  onChange={handleTruckLoadDataInputChange}
+                />
+                <InputField
+                  id="endTime"
+                  name="endTime"
+                  type="text"
+                  value={truckLoadData.endTime}
+                  label="Arrival time*"
+                  autoComplete="off"
+                  placeholder="hh:mm"
+                  onChange={handleTruckLoadDataInputChange}
+                />
+              </div>
 
-          <InputField
-            id="incomePerKilometer"
-            name="incomePerKilometer"
-            type="number"
-            value={truckLoadData.incomePerKilometer}
-            label="Income per kilometer*"
-            autoComplete="off"
-            onChange={handleTruckLoadDataInputChange}
-            onInput={removeLeadingZeros}
-          />
+              <InputField
+                id="incomePerKilometer"
+                name="incomePerKilometer"
+                type="number"
+                value={truckLoadData.incomePerKilometer}
+                label="Income per kilometer*"
+                autoComplete="off"
+                onChange={handleTruckLoadDataInputChange}
+                onInput={removeLeadingZeros}
+              />
 
-          <div className="flex flex-col">
-            <span className="mt-4 px-1 py-2 text-sm">Load items:</span>
-            <div className="max-h-[11rem] overflow-x-auto">
-              <table className="table table-pin-rows table-sm">
-                <thead>
-                  <tr>
-                    <th>Number</th>
-                    <th>Name</th>
-                    <th>Dangerous</th>
-                    <th>Fragile</th>
-                    <th>Weight (kg)</th>
-                    <th>Volume (m&sup3;)</th>
-                  </tr>
-                </thead>
-                {loadItems.length > 0 ? (
-                  <tbody>
-                    {loadItems.map((item, index) => (
-                      <tr
-                        key={index}
-                        className={`${index === selectedTableRow ? "bg-primary text-primary-content" : ""} cursor-pointer`}
-                        onClick={() => handleRowClick(index)}
-                      >
-                        <td>
-                          {item.tableRow !== undefined ? item.tableRow + 1 : ""}
-                        </td>
-                        <td>{item.name}</td>
-                        <td>{item.dangerous ? "Yes" : "No"}</td>
-                        <td>{item.fragile ? "Yes" : "No"}</td>
-                        <td>{item.weight}</td>
-                        <td>{item.volume}</td>
+              <div className="flex flex-col">
+                <span className="mt-2 px-1 py-2 text-sm">Load items:</span>
+                <div className="max-h-24 overflow-x-auto">
+                  <table className="table table-pin-rows table-xs">
+                    <thead>
+                      <tr>
+                        <th>Number</th>
+                        <th>Name</th>
+                        <th>Dangerous</th>
+                        <th>Fragile</th>
+                        <th>Weight (kg)</th>
+                        <th>Volume (m&sup3;)</th>
                       </tr>
-                    ))}
-                  </tbody>
-                ) : null}
-              </table>
-            </div>
-            <button
-              type="button"
-              className="btn btn-neutral mt-3 self-end rounded-full px-8"
-              disabled={selectedLoadItem === null}
-              onClick={handleRemoveLoadItem}
-            >
-              Remove item
-            </button>
-          </div>
-
-          <hr />
-
-          <div className="flex flex-col">
-            <h2>New load item</h2>
-            <InputField
-              id="name"
-              name="name"
-              type="text"
-              value={loadItemData.name}
-              label="Item name*"
-              autoComplete="off"
-              onChange={handleLoadItemDataInputChange}
-            />
-
-            <div>
-              <label className="label inline-flex cursor-pointer gap-3">
-                <span className="label-text">Dangerous</span>
-                <input
-                  name="dangerous"
-                  type="checkbox"
-                  onChange={handleLoadItemDataInputChange}
-                  checked={loadItemData.dangerous}
-                  className="checkbox"
-                />
-              </label>
+                    </thead>
+                    {loadItems.length > 0 ? (
+                      <tbody>
+                        {loadItems.map((item, index) => (
+                          <tr
+                            key={index}
+                            className={`${index === selectedTableRow ? "bg-primary text-primary-content" : ""} cursor-pointer`}
+                            onClick={() => handleRowClick(index)}
+                          >
+                            <td>
+                              {item.tableRow !== undefined
+                                ? item.tableRow + 1
+                                : ""}
+                            </td>
+                            <td>{item.name}</td>
+                            <td>{item.dangerous ? "Yes" : "No"}</td>
+                            <td>{item.fragile ? "Yes" : "No"}</td>
+                            <td>{item.weight}</td>
+                            <td>{item.volume}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    ) : null}
+                  </table>
+                </div>
+                <button
+                  type="button"
+                  className="btn btn-neutral mt-3 h-10 min-h-10 self-end rounded-full px-8 3xl:mb-7 3xl:mt-3 3xl:h-12 3xl:min-h-12"
+                  disabled={selectedLoadItem === null}
+                  onClick={handleRemoveLoadItem}
+                >
+                  Remove item
+                </button>
+              </div>
             </div>
 
-            <div>
-              <label className="label inline-flex cursor-pointer gap-3">
-                <span className="label-text">Fragile</span>
-                <input
-                  name="fragile"
-                  type="checkbox"
-                  onChange={handleLoadItemDataInputChange}
-                  checked={loadItemData.fragile}
-                  className="checkbox"
-                />
-              </label>
+            <hr className="hidden 3xl:block" />
+
+            <div className="flex w-2/5 flex-col pl-3 3xl:mt-2 3xl:w-full 3xl:border-none 3xl:p-0">
+              <h2>New load item</h2>
+              <InputField
+                id="name"
+                name="name"
+                type="text"
+                value={loadItemData.name}
+                label="Item name*"
+                autoComplete="off"
+                onChange={handleLoadItemDataInputChange}
+              />
+
+              <div>
+                <label className="label inline-flex cursor-pointer gap-3">
+                  <span className="label-text">Dangerous</span>
+                  <input
+                    name="dangerous"
+                    type="checkbox"
+                    onChange={handleLoadItemDataInputChange}
+                    checked={loadItemData.dangerous}
+                    className="checkbox"
+                  />
+                </label>
+              </div>
+
+              <div>
+                <label className="label inline-flex cursor-pointer gap-3">
+                  <span className="label-text">Fragile</span>
+                  <input
+                    name="fragile"
+                    type="checkbox"
+                    onChange={handleLoadItemDataInputChange}
+                    checked={loadItemData.fragile}
+                    className="checkbox"
+                  />
+                </label>
+              </div>
+
+              <InputField
+                id="weight"
+                name="weight"
+                type="number"
+                value={loadItemData.weight}
+                label="Weight*"
+                autoComplete="off"
+                onChange={handleLoadItemDataInputChange}
+                onInput={removeLeadingZeros}
+              />
+              <InputField
+                id="volume"
+                name="volume"
+                type="number"
+                value={loadItemData.volume}
+                label="Volume*"
+                autoComplete="off"
+                onChange={handleLoadItemDataInputChange}
+                onInput={removeLeadingZeros}
+              />
+
+              <button
+                type="button"
+                className="btn btn-neutral mt-3 h-10 min-h-10 self-end rounded-full px-8 3xl:mb-7 3xl:mt-3 3xl:h-12 3xl:min-h-12"
+                disabled={loadItemData.name === ""}
+                onClick={handleAddNewLoadItem}
+              >
+                Add item
+              </button>
             </div>
-
-            <InputField
-              id="weight"
-              name="weight"
-              type="number"
-              value={loadItemData.weight}
-              label="Weight*"
-              autoComplete="off"
-              onChange={handleLoadItemDataInputChange}
-              onInput={removeLeadingZeros}
-            />
-            <InputField
-              id="volume"
-              name="volume"
-              type="number"
-              value={loadItemData.volume}
-              label="Volume*"
-              autoComplete="off"
-              onChange={handleLoadItemDataInputChange}
-              onInput={removeLeadingZeros}
-            />
-
-            <button
-              type="button"
-              className="btn btn-neutral mt-3 self-end rounded-full px-8"
-              disabled={loadItemData.name === ""}
-              onClick={handleAddNewLoadItem}
-            >
-              Add item
-            </button>
           </div>
 
           <button
             type="submit"
             disabled={isSaveButtonDisabled}
-            className="btn btn-neutral mt-8 w-full max-w-xs self-center rounded-full"
+            className="btn btn-neutral mt-5 h-10 min-h-10 w-full max-w-72 self-center rounded-full 3xl:mt-10 3xl:h-12 3xl:min-h-12"
           >
             Save
           </button>

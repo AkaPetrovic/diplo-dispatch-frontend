@@ -237,7 +237,7 @@ const DeleteDriverPage = () => {
         </div>
 
         <div className="max-h-24 overflow-x-auto">
-          <table className="table table-xs">
+          <table className="table table-pin-rows table-xs">
             <thead>
               <tr>
                 <th>ID</th>
@@ -293,7 +293,7 @@ const DeleteDriverPage = () => {
             disabled={true}
           />
           <label className="form-control w-full max-w-xs">
-            <div className="label">
+            <div className="label px-1 pb-1 pt-2 3xl:py-2">
               <span className="label-text">Truck</span>
             </div>
             <select

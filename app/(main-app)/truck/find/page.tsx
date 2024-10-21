@@ -152,7 +152,7 @@ const FindTruckPage = () => {
 
         <div className="mb-2 flex flex-row items-end gap-4">
           <label className="form-control w-full max-w-xs">
-            <div className="label">
+            <div className="label px-1 pb-1 pt-2 3xl:py-2">
               <span className="label-text">Select the truck manufacturer</span>
             </div>
             <select
@@ -181,7 +181,7 @@ const FindTruckPage = () => {
         </div>
 
         <div className="max-h-24 overflow-x-auto">
-          <table className="table table-xs">
+          <table className="table table-pin-rows table-xs">
             <thead>
               <tr>
                 <th>ID</th>
@@ -238,7 +238,7 @@ const FindTruckPage = () => {
             disabled={true}
           />
           <label className="form-control w-full max-w-xs">
-            <div className="label">
+            <div className="label px-1 pb-1 pt-2 3xl:py-2">
               <span className="label-text">Manufacturer</span>
             </div>
             <select

@@ -255,12 +255,12 @@ const FindTruckLoadPage = () => {
 
   return (
     <main className="flex h-full w-full flex-col items-center justify-center">
-      <div className="w-1/4 min-w-fit px-8 py-5 shadow">
+      <div className="w-1/4 min-w-fit px-6 py-3 shadow 3xl:px-8 3xl:py-5">
         <div className="flex flex-col">
-          <h1 className="mb-2">Find truck load</h1>
+          <h1>Find truck load</h1>
         </div>
 
-        <div className="mb-4 flex flex-row items-end gap-4">
+        <div className="mb-2 flex flex-row items-end gap-4">
           <InputField
             id="truckLoadDateForSearch"
             name="truckLoadDateForSearch"
@@ -272,7 +272,7 @@ const FindTruckLoadPage = () => {
           />
           <button
             type="button"
-            className="btn btn-neutral rounded-full px-8"
+            className="btn btn-neutral h-10 min-h-10 rounded-full px-8 3xl:h-12 3xl:min-h-12"
             onClick={handleLoadTruckLoads}
             disabled={truckLoadDateForSearch.length !== 10}
           >
@@ -280,8 +280,8 @@ const FindTruckLoadPage = () => {
           </button>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="table table-xs">
+        <div className="max-h-24 overflow-x-auto">
+          <table className="table table-pin-rows table-xs">
             <thead>
               <tr>
                 <th>ID</th>
@@ -317,7 +317,7 @@ const FindTruckLoadPage = () => {
 
         <button
           type="button"
-          className="btn btn-neutral mb-7 mt-3 rounded-full px-8"
+          className="btn btn-neutral mb-2 mt-2 h-10 min-h-10 rounded-full px-8 3xl:mb-7 3xl:mt-3 3xl:h-12 3xl:min-h-12"
           disabled={selectedTableRow === -1}
           onClick={handleChooseTruckLoad}
         >
@@ -326,36 +326,37 @@ const FindTruckLoadPage = () => {
 
         <hr />
 
-        <form className="mt-7 flex flex-col gap-3">
-          <label className="form-control w-full max-w-xs">
-            <div className="label">
-              <span className="label-text">Driver</span>
-            </div>
-            <select
-              id="driver"
-              name="driver"
-              value={truckLoadData.driver.id}
-              className="select select-bordered"
+        <form className="flex flex-col 3xl:mt-7 3xl:gap-3">
+          <div className="flex gap-4">
+            <InputField
+              id="id"
+              name="id"
+              type="text"
+              value={truckLoadData.id ? truckLoadData.id : ""}
+              label="ID"
               disabled={true}
-            >
-              {drivers?.map((driver) => (
-                <option key={driver.id} value={driver.id}>
-                  {`${driver.id} | ${driver.name} ${driver.surname}`}
-                </option>
-              ))}
-            </select>
-          </label>
+            />
+            <label className="form-control w-full max-w-xs">
+              <div className="label px-1 pb-1 pt-2 3xl:py-2">
+                <span className="label-text">Driver</span>
+              </div>
+              <select
+                id="driver"
+                name="driver"
+                value={truckLoadData.driver.id}
+                className="select select-bordered h-10 min-h-10 3xl:h-12 3xl:min-h-12"
+                disabled={true}
+              >
+                {drivers?.map((driver) => (
+                  <option key={driver.id} value={driver.id}>
+                    {`${driver.id} | ${driver.name} ${driver.surname}`}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
 
-          <InputField
-            id="id"
-            name="id"
-            type="text"
-            value={truckLoadData.id ? truckLoadData.id : ""}
-            label="ID"
-            disabled={true}
-          />
-
-          <div className="flex gap-3">
+          <div className="flex gap-4">
             <InputField
               id="startDate"
               name="startDate"
@@ -378,7 +379,7 @@ const FindTruckLoadPage = () => {
             />
           </div>
 
-          <div className="flex gap-3">
+          <div className="flex gap-4">
             <InputField
               id="startTime"
               name="startTime"
@@ -412,8 +413,8 @@ const FindTruckLoadPage = () => {
           />
 
           <div className="flex flex-col">
-            <span className="mt-4 px-1 py-2 text-sm">Load items:</span>
-            <div className="max-h-[11rem] overflow-x-auto">
+            <span className="mt-2 px-1 py-2 text-sm">Load items:</span>
+            <div className="max-h-24 overflow-x-auto">
               <table className="table table-pin-rows table-xs">
                 <thead>
                   <tr>

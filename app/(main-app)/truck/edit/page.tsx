@@ -328,13 +328,15 @@ const EditTruckPage = () => {
             Fields marked with * are required
           </p>
           {errorMessage ? (
-            <p className="w-full max-w-xs text-red-500">{errorMessage}</p>
+            <p className="w-full max-w-xs text-sm text-red-500">
+              {errorMessage}
+            </p>
           ) : null}
         </div>
 
         <div className="mb-2 flex flex-row items-end gap-4">
           <label className="form-control w-full max-w-xs">
-            <div className="label">
+            <div className="label px-1 pb-1 pt-2 3xl:py-2">
               <span className="label-text">Select the truck manufacturer</span>
             </div>
             <select
@@ -423,7 +425,7 @@ const EditTruckPage = () => {
             disabled={true}
           />
           <label className="form-control w-full max-w-xs">
-            <div className="label">
+            <div className="label px-1 pb-1 pt-2 3xl:py-2">
               <span className="label-text">Manufacturer*</span>
             </div>
             <select
