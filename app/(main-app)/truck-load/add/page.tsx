@@ -457,7 +457,6 @@ const AddTruckLoadPage = () => {
         >
           <div className="flex 3xl:flex-col">
             <div className="w-3/5 border-r pr-3 3xl:mb-2 3xl:w-full 3xl:border-none 3xl:p-0">
-              <h2>Truck load data</h2>
               <label className="form-control w-full max-w-xs">
                 <div className="label px-1 pb-1 pt-2 3xl:py-2">
                   <span className="label-text">Driver*</span>
@@ -535,7 +534,17 @@ const AddTruckLoadPage = () => {
               />
 
               <div className="flex flex-col">
-                <span className="mt-2 px-1 py-2 text-sm">Load items:</span>
+                <div className="mb-1 mt-1 flex items-center justify-between">
+                  <span className="px-1 py-2 text-sm">Load items:</span>
+                  <button
+                    type="button"
+                    className="btn btn-neutral h-10 min-h-10 self-end rounded-full px-8 3xl:h-12 3xl:min-h-12"
+                    disabled={selectedLoadItem === null}
+                    onClick={handleRemoveLoadItem}
+                  >
+                    Remove item
+                  </button>
+                </div>
                 <div className="max-h-24 overflow-x-auto">
                   <table className="table table-pin-rows table-xs">
                     <thead>
@@ -572,21 +581,12 @@ const AddTruckLoadPage = () => {
                     ) : null}
                   </table>
                 </div>
-                <button
-                  type="button"
-                  className="btn btn-neutral mt-3 h-10 min-h-10 self-end rounded-full px-8 3xl:mb-7 3xl:mt-3 3xl:h-12 3xl:min-h-12"
-                  disabled={selectedLoadItem === null}
-                  onClick={handleRemoveLoadItem}
-                >
-                  Remove item
-                </button>
               </div>
             </div>
 
             <hr className="hidden 3xl:block" />
 
             <div className="flex w-2/5 flex-col pl-3 3xl:mt-2 3xl:w-full 3xl:border-none 3xl:p-0">
-              <h2>New load item</h2>
               <InputField
                 id="name"
                 name="name"

@@ -829,11 +829,11 @@ const EditTruckLoadPage = () => {
               />
 
               <div className="flex flex-col">
-                <div className="mb-1 flex items-center justify-between">
+                <div className="mb-1 mt-1 flex items-center justify-between">
                   <span className="px-1 py-2 text-sm">Load items:</span>
                   <button
                     type="button"
-                    className="btn btn-neutral mt-3 h-10 min-h-10 self-end rounded-full px-8 3xl:mb-7 3xl:mt-3 3xl:h-12 3xl:min-h-12"
+                    className="btn btn-neutral h-10 min-h-10 self-end rounded-full px-8 3xl:h-12 3xl:min-h-12"
                     disabled={selectedLoadItem === null}
                     onClick={handleRemoveLoadItem}
                   >
