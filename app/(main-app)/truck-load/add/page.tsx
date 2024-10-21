@@ -408,8 +408,6 @@ const AddTruckLoadPage = () => {
         loadItems: loadItems,
       };
 
-      // console.log(request);
-
       const response = await fetch("http://localhost:8080/api/loads/add", {
         method: "POST",
         headers: {
