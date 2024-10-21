@@ -247,7 +247,7 @@ const AddDriverPage = () => {
           ) : null}
         </div>
 
-        <form onSubmit={handleSave} className="mt-7 flex flex-col gap-3">
+        <form onSubmit={handleSave} className="mt-7 flex flex-col 3xl:gap-3">
           <label className="form-control w-full max-w-xs">
             <div className="label">
               <span className="label-text">Truck*</span>
@@ -257,7 +257,7 @@ const AddDriverPage = () => {
               name="truck"
               value={selectedTruckId}
               onChange={(e) => setSelectedTruckId(Number(e.target.value))}
-              className="select select-bordered"
+              className="select select-bordered h-10 min-h-10 3xl:h-12 3xl:min-h-12"
             >
               {trucks?.map((truck) => (
                 <option key={truck.id} value={truck.id}>

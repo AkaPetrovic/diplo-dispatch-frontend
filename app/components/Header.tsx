@@ -9,7 +9,7 @@ const Header = () => {
   const decodedToken = decodeToken(token);
 
   return (
-    <nav className="absolute z-10 flex h-20 w-full flex-row justify-between text-gray-950">
+    <nav className="absolute z-10 flex h-16 w-full flex-row justify-between text-gray-950 3xl:h-20">
       <Navigation decodedToken={decodedToken} />
       <div className="h-full flex-grow bg-[rgba(255,255,255,0.5)] backdrop-blur-md"></div>
       <Profile decodedToken={decodedToken} />

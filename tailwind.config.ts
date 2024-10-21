@@ -9,6 +9,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      screens: {
+        "3xl": "2000px",
+      },
       fontFamily: {
         "sf-pro": "var(--font-sf-pro)",
       },
