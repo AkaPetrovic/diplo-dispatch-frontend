@@ -223,7 +223,7 @@ const AddTruckPage = () => {
 
   return (
     <main className="flex h-full w-full flex-col items-center justify-center">
-      <div className="w-1/4 min-w-fit px-8 py-5 shadow">
+      <div className="w-1/4 min-w-fit px-6 py-3 shadow 3xl:px-8 3xl:py-5">
         <div className="flex flex-col">
           <h1 className="mb-2">Add new truck</h1>
           <p className="w-full max-w-xs text-sm">
@@ -234,7 +234,10 @@ const AddTruckPage = () => {
           ) : null}
         </div>
 
-        <form onSubmit={handleSave} className="mt-7 flex flex-col gap-3">
+        <form
+          onSubmit={handleSave}
+          className="mt-2 flex flex-col 3xl:mt-7 3xl:gap-3"
+        >
           <label className="form-control w-full max-w-xs">
             <div className="label">
               <span className="label-text">Manufacturer*</span>
@@ -246,7 +249,7 @@ const AddTruckPage = () => {
               onChange={(e) =>
                 setSelectedManufacturerId(Number(e.target.value))
               }
-              className="select select-bordered"
+              className="select select-bordered h-10 min-h-10 3xl:h-12 3xl:min-h-12"
             >
               {manufacturers?.map((manufacturer) => (
                 <option key={manufacturer.id} value={manufacturer.id}>
@@ -265,46 +268,50 @@ const AddTruckPage = () => {
             autoComplete="off"
             onChange={handleInputChange}
           />
-          <InputField
-            id="power"
-            name="power"
-            type="number"
-            value={truckData.power}
-            label="Power (HP)*"
-            onChange={handleInputChange}
-            onInput={removeLeadingZeros}
-          />
-          <InputField
-            id="kilometersTravelled"
-            name="kilometersTravelled"
-            type="number"
-            value={truckData.kilometersTravelled}
-            label="Kilometers travelled*"
-            onChange={handleInputChange}
-            onInput={removeLeadingZeros}
-          />
-          <InputField
-            id="year"
-            name="year"
-            type="number"
-            value={truckData.year}
-            label="Year*"
-            onChange={handleInputChange}
-            onInput={removeLeadingZeros}
-          />
-          <InputField
-            id="carryingCapacity"
-            name="carryingCapacity"
-            type="number"
-            value={truckData.carryingCapacity}
-            label="Carrying Capacity (tons)*"
-            onChange={handleInputChange}
-            onInput={removeLeadingZeros}
-          />
+          <div className="flex gap-4 3xl:flex-col 3xl:gap-3">
+            <InputField
+              id="power"
+              name="power"
+              type="number"
+              value={truckData.power}
+              label="Power (HP)*"
+              onChange={handleInputChange}
+              onInput={removeLeadingZeros}
+            />
+            <InputField
+              id="kilometersTravelled"
+              name="kilometersTravelled"
+              type="number"
+              value={truckData.kilometersTravelled}
+              label="Kilometers travelled*"
+              onChange={handleInputChange}
+              onInput={removeLeadingZeros}
+            />
+          </div>
+          <div className="flex gap-4 3xl:flex-col 3xl:gap-3">
+            <InputField
+              id="year"
+              name="year"
+              type="number"
+              value={truckData.year}
+              label="Year*"
+              onChange={handleInputChange}
+              onInput={removeLeadingZeros}
+            />
+            <InputField
+              id="carryingCapacity"
+              name="carryingCapacity"
+              type="number"
+              value={truckData.carryingCapacity}
+              label="Carrying Capacity (tons)*"
+              onChange={handleInputChange}
+              onInput={removeLeadingZeros}
+            />
+          </div>
           <button
             type="submit"
             disabled={isSaveButtonDisabled}
-            className="btn btn-neutral mt-10 w-full max-w-xs self-center rounded-full"
+            className="btn btn-neutral mt-5 h-10 min-h-10 w-full max-w-72 self-center rounded-full 3xl:mt-10 3xl:h-12 3xl:min-h-12"
           >
             Save
           </button>

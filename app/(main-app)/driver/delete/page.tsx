@@ -213,12 +213,12 @@ const DeleteDriverPage = () => {
 
   return (
     <main className="flex h-full w-full flex-col items-center justify-center">
-      <div className="w-1/4 min-w-fit px-8 py-5 shadow">
-        <div className="mb-5 flex flex-col">
-          <h1 className="mb-2">Delete driver</h1>
+      <div className="w-1/4 min-w-fit px-6 py-3 shadow 3xl:px-8 3xl:py-5">
+        <div className="flex flex-col">
+          <h1>Delete driver</h1>
         </div>
 
-        <div className="mb-4 flex flex-row items-end gap-4">
+        <div className="mb-2 flex flex-row items-end gap-4">
           <InputField
             id="driverNameForSearch"
             name="driverNameForSearch"
@@ -229,15 +229,15 @@ const DeleteDriverPage = () => {
           />
           <button
             type="button"
-            className="btn btn-neutral rounded-full px-8"
+            className="btn btn-neutral h-10 min-h-10 rounded-full px-8 3xl:h-12 3xl:min-h-12"
             onClick={handleLoadDrivers}
           >
             Load drivers
           </button>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="table table-sm">
+        <div className="max-h-24 overflow-x-auto">
+          <table className="table table-xs">
             <thead>
               <tr>
                 <th>ID</th>
@@ -271,7 +271,7 @@ const DeleteDriverPage = () => {
 
         <button
           type="button"
-          className="btn btn-neutral mb-7 mt-3 rounded-full px-8"
+          className="btn btn-neutral mb-2 mt-2 h-10 min-h-10 rounded-full px-8 3xl:mb-7 3xl:mt-3 3xl:h-12 3xl:min-h-12"
           disabled={selectedTableRow === -1}
           onClick={handleChooseDriver}
         >
@@ -282,7 +282,7 @@ const DeleteDriverPage = () => {
 
         <form
           onSubmit={handleInitiateConfirmDialog}
-          className="mt-7 flex flex-col gap-3"
+          className="flex flex-col 3xl:mt-7 3xl:gap-3"
         >
           <InputField
             id="id"
@@ -292,7 +292,7 @@ const DeleteDriverPage = () => {
             label="ID"
             disabled={true}
           />
-          <label className="form-control mb-3 w-full max-w-xs">
+          <label className="form-control w-full max-w-xs">
             <div className="label">
               <span className="label-text">Truck</span>
             </div>
@@ -301,7 +301,7 @@ const DeleteDriverPage = () => {
               name="truck"
               value={driverData.truck.id}
               disabled={true}
-              className="select select-bordered"
+              className="select select-bordered h-10 min-h-10 3xl:h-12 3xl:min-h-12"
             >
               {trucks?.map((truck) => (
                 <option key={truck.id} value={truck.id}>
@@ -341,7 +341,7 @@ const DeleteDriverPage = () => {
           <button
             type="submit"
             disabled={isDeleteButtonDisabled}
-            className="btn btn-neutral mt-10 w-full max-w-xs self-center rounded-full"
+            className="btn btn-neutral mt-5 h-10 min-h-10 w-full max-w-72 self-center rounded-full 3xl:mt-10 3xl:h-12 3xl:min-h-12"
           >
             Delete
           </button>

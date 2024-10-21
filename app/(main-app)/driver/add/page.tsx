@@ -236,7 +236,7 @@ const AddDriverPage = () => {
 
   return (
     <main className="flex h-full w-full flex-col items-center justify-center">
-      <div className="w-1/4 min-w-fit px-8 py-5 shadow">
+      <div className="w-1/4 min-w-fit px-6 py-3 shadow 3xl:px-8 3xl:py-5">
         <div className="flex flex-col">
           <h1 className="mb-2">Add new driver</h1>
           <p className="w-full max-w-xs text-sm">
@@ -247,7 +247,10 @@ const AddDriverPage = () => {
           ) : null}
         </div>
 
-        <form onSubmit={handleSave} className="mt-7 flex flex-col 3xl:gap-3">
+        <form
+          onSubmit={handleSave}
+          className="mt-2 flex flex-col 3xl:mt-7 3xl:gap-3"
+        >
           <label className="form-control w-full max-w-xs">
             <div className="label">
               <span className="label-text">Truck*</span>
@@ -298,7 +301,7 @@ const AddDriverPage = () => {
           <button
             type="submit"
             disabled={isSaveButtonDisabled}
-            className="btn btn-neutral mt-10 w-full max-w-xs self-center rounded-full"
+            className="btn btn-neutral mt-5 h-10 min-h-10 w-full max-w-72 self-center rounded-full 3xl:mt-10 3xl:h-12 3xl:min-h-12"
           >
             Save
           </button>

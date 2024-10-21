@@ -145,12 +145,12 @@ const FindTruckPage = () => {
 
   return (
     <main className="flex h-full w-full flex-col items-center justify-center">
-      <div className="w-1/4 min-w-fit px-8 py-5 shadow">
-        <div className="mb-5 flex flex-col">
-          <h1 className="mb-2">Find truck</h1>
+      <div className="w-1/4 min-w-fit px-6 py-3 shadow 3xl:px-8 3xl:py-5">
+        <div className="flex flex-col">
+          <h1>Find truck</h1>
         </div>
 
-        <div className="mb-4 flex flex-row items-end gap-4">
+        <div className="mb-2 flex flex-row items-end gap-4">
           <label className="form-control w-full max-w-xs">
             <div className="label">
               <span className="label-text">Select the truck manufacturer</span>
@@ -162,7 +162,7 @@ const FindTruckPage = () => {
               onChange={(e) =>
                 setSelectedManufacturerIdForSearch(Number(e.target.value))
               }
-              className="select select-bordered"
+              className="select select-bordered h-10 min-h-10 3xl:h-12 3xl:min-h-12"
             >
               {manufacturers?.map((manufacturer) => (
                 <option key={manufacturer.id} value={manufacturer.id}>
@@ -173,15 +173,15 @@ const FindTruckPage = () => {
           </label>
           <button
             type="button"
-            className="btn btn-neutral rounded-full px-8"
+            className="btn btn-neutral h-10 min-h-10 rounded-full px-8 3xl:h-12 3xl:min-h-12"
             onClick={handleLoadTrucks}
           >
             Load trucks
           </button>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="table table-sm">
+        <div className="max-h-24 overflow-x-auto">
+          <table className="table table-xs">
             <thead>
               <tr>
                 <th>ID</th>
@@ -219,7 +219,7 @@ const FindTruckPage = () => {
 
         <button
           type="button"
-          className="btn btn-neutral mb-7 mt-3 rounded-full px-8"
+          className="btn btn-neutral mb-2 mt-2 h-10 min-h-10 rounded-full px-8 3xl:mb-7 3xl:mt-3 3xl:h-12 3xl:min-h-12"
           disabled={selectedTableRow === -1}
           onClick={handleChooseTruck}
         >
@@ -228,7 +228,7 @@ const FindTruckPage = () => {
 
         <hr />
 
-        <form className="mt-7 flex flex-col gap-3">
+        <form className="flex flex-col 3xl:mt-7 3xl:gap-3">
           <InputField
             id="model"
             name="model"
@@ -237,7 +237,7 @@ const FindTruckPage = () => {
             label="ID"
             disabled={true}
           />
-          <label className="form-control mb-3 w-full max-w-xs">
+          <label className="form-control w-full max-w-xs">
             <div className="label">
               <span className="label-text">Manufacturer</span>
             </div>
@@ -246,7 +246,7 @@ const FindTruckPage = () => {
               name="manufacturer"
               value={truckData.manufacturer.id}
               disabled={true}
-              className="select select-bordered"
+              className="select select-bordered h-10 min-h-10 3xl:h-12 3xl:min-h-12"
             >
               {manufacturers?.map((manufacturer) => (
                 <option key={manufacturer.id} value={manufacturer.id}>
@@ -265,38 +265,42 @@ const FindTruckPage = () => {
             autoComplete="off"
             disabled={true}
           />
-          <InputField
-            id="power"
-            name="power"
-            type="number"
-            value={truckData.power}
-            label="Power (HP)"
-            disabled={true}
-          />
-          <InputField
-            id="kilometersTravelled"
-            name="kilometersTravelled"
-            type="number"
-            value={truckData.kilometersTravelled}
-            label="Kilometers travelled"
-            disabled={true}
-          />
-          <InputField
-            id="year"
-            name="year"
-            type="number"
-            value={truckData.year}
-            label="Year"
-            disabled={true}
-          />
-          <InputField
-            id="carryingCapacity"
-            name="carryingCapacity"
-            type="number"
-            value={truckData.carryingCapacity}
-            label="Carrying Capacity (tons)"
-            disabled={true}
-          />
+          <div className="flex gap-4 3xl:flex-col 3xl:gap-3">
+            <InputField
+              id="power"
+              name="power"
+              type="number"
+              value={truckData.power}
+              label="Power (HP)"
+              disabled={true}
+            />
+            <InputField
+              id="kilometersTravelled"
+              name="kilometersTravelled"
+              type="number"
+              value={truckData.kilometersTravelled}
+              label="Kilometers travelled"
+              disabled={true}
+            />
+          </div>
+          <div className="flex gap-4 3xl:flex-col 3xl:gap-3">
+            <InputField
+              id="year"
+              name="year"
+              type="number"
+              value={truckData.year}
+              label="Year"
+              disabled={true}
+            />
+            <InputField
+              id="carryingCapacity"
+              name="carryingCapacity"
+              type="number"
+              value={truckData.carryingCapacity}
+              label="Carrying Capacity (tons)"
+              disabled={true}
+            />
+          </div>
         </form>
       </div>
 

@@ -40,7 +40,7 @@ const InputField = ({
         disabled={disabled}
         onChange={onChange}
         onInput={onInput}
-        className="input input-bordered w-full"
+        className="input input-bordered h-10 w-full 3xl:h-12"
       />
     </div>
   );

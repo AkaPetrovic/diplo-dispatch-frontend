@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "../globals.css";
 import Header from "../components/Header";
-import { TokenContextProvider } from "../utility/context/TokenContext";
 
 const SFPro = localFont({
   src: "../fonts/SF-Pro.ttf",
@@ -25,10 +24,8 @@ const RootLayout = ({
       <body
         className={`${SFPro.variable} h-screen w-screen font-sf-pro font-light`}
       >
-        <TokenContextProvider>
-          <Header />
-          {children}
-        </TokenContextProvider>
+        <Header />
+        {children}
       </body>
     </html>
   );
