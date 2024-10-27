@@ -6,10 +6,6 @@ export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const role = extractUserRole(token);
 
-  // Pattern for dynamic routes with academic year and subject
-  const restrictedRoutesPattern =
-    /^\/class-coverage-plans\/\d{4}-\d{2}\/[\w%20]+\/(new|\d+)$/;
-
   if (isAuthenticated(token)) {
     if (pathname === "/login") {
       return NextResponse.redirect(new URL("/", request.url));
@@ -22,7 +18,11 @@ export function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL("/", request.url));
     }
   } else {
-    if (pathname === "/login") {
+    if (
+      pathname === "/login" ||
+      pathname === "/reset-password" ||
+      pathname === "/forgot-password"
+    ) {
       return NextResponse.next();
     } else {
       return NextResponse.redirect(new URL("/login", request.url));

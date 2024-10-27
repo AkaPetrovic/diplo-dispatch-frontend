@@ -1,16 +1,11 @@
 "use client";
 
-import { decodeToken } from "@/app/utility/auth";
-import { TokenContext } from "@/app/utility/context/TokenContext";
-import background from "@/public/background.jpg";
-import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useContext, useState } from "react";
+import { useState } from "react";
 
 const LoginPage = () => {
   const router = useRouter();
-
-  const { setTokenValue } = useContext(TokenContext);
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -43,7 +38,7 @@ const LoginPage = () => {
       document.cookie = `token=${token}; path=/; max-age=${
         60 * 60 * 24
       }; secure; samesite=lax;`;
-      setTokenValue(decodeToken(token));
+
       router.push("/");
     } catch (error) {
       console.error("Login failed. Error:", error);
@@ -52,18 +47,6 @@ const LoginPage = () => {
 
   return (
     <main className="relative flex h-full w-full items-center justify-center">
-      {/* Background image */}
-      <div className="absolute h-full w-full after:absolute after:h-full after:w-full after:bg-vignette">
-        <Image
-          alt="Background gradient image"
-          src={background}
-          fill
-          sizes="100vw"
-          quality={100}
-          className="object-cover blur-sm"
-        />
-      </div>
-
       {/* Login form */}
       <section className="relative flex flex-row rounded-lg bg-[rgba(255,255,255,0.5)] p-8 text-gray-950 backdrop-blur-md">
         <div className="border-r border-solid border-r-[#bebebe] px-8">
@@ -103,6 +86,11 @@ const LoginPage = () => {
               onChange={handleInputChange}
               required
             />
+            <div className="flex justify-end">
+              <Link href="/forgot-password" className="inline-block px-1 py-1">
+                Forgot password?
+              </Link>
+            </div>
           </div>
           <button type="submit" className="btn btn-neutral rounded-full">
             Login

@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "../globals.css";
-import { TokenContextProvider } from "../utility/context/TokenContext";
+import background from "@/public/background.jpg";
+import Image from "next/image";
 
 const SFPro = localFont({
   src: "../fonts/SF-Pro.ttf",
@@ -24,7 +25,18 @@ const RootLayout = ({
       <body
         className={`${SFPro.variable} h-screen w-screen font-sf-pro font-light`}
       >
-        <TokenContextProvider>{children}</TokenContextProvider>
+        {/* Background image */}
+        <div className="absolute h-full w-full after:absolute after:h-full after:w-full after:bg-vignette">
+          <Image
+            alt="Background gradient image"
+            src={background}
+            fill
+            sizes="100vw"
+            quality={100}
+            className="object-cover blur-sm"
+          />
+        </div>
+        {children}
       </body>
     </html>
   );
