@@ -1,20 +1,25 @@
+import { DocumentProps, PDFDownloadLink } from "@react-pdf/renderer";
 import React, { useEffect, useRef } from "react";
 
 interface DialogModalProps {
   message: string;
   isOpen: boolean;
   onClose: () => void;
+  onCloseWithFormReset?: () => void;
   onConfirm?: () => void;
-  type: "message" | "confirm";
+  pdfDocument?: React.ReactElement<DocumentProps> | null;
+  type: "message" | "confirm" | "pdf";
 }
 
-const DialogModal: React.FC<DialogModalProps> = ({
+const DialogModal = ({
   message,
   isOpen,
   onClose,
+  onCloseWithFormReset,
   onConfirm,
+  pdfDocument = null,
   type,
-}) => {
+}: DialogModalProps) => {
   const dialogRef = useRef<HTMLDialogElement | null>(null);
 
   useEffect(() => {
@@ -40,6 +45,13 @@ const DialogModal: React.FC<DialogModalProps> = ({
     }
   }, [isOpen]);
 
+  const handleGeneratePDF = () => {
+    if (dialogRef.current && onCloseWithFormReset) {
+      dialogRef.current.close();
+      onCloseWithFormReset();
+    }
+  };
+
   return (
     <dialog ref={dialogRef} className="modal">
       <div className="modal-box">
@@ -47,20 +59,49 @@ const DialogModal: React.FC<DialogModalProps> = ({
         <p className="py-4">{message}</p>
         <div className="modal-action">
           <form method="dialog">
+            {type === "pdf" && pdfDocument && onCloseWithFormReset ? (
+              <>
+                <button onClick={handleGeneratePDF} className="mr-3">
+                  <PDFDownloadLink
+                    document={pdfDocument}
+                    className="btn focus:outline-none"
+                  >
+                    Generate PDF
+                  </PDFDownloadLink>
+                </button>
+
+                <button
+                  className="btn focus:outline-none"
+                  onClick={onCloseWithFormReset}
+                >
+                  Close
+                </button>
+              </>
+            ) : null}
+
             {type === "confirm" && onConfirm ? (
-              <button
-                className="btn mr-3 focus:outline-none"
-                onClick={() => {
-                  onConfirm();
-                  onClose();
-                }}
-              >
-                Confirm
+              <>
+                <button
+                  className="btn mr-3 focus:outline-none"
+                  onClick={() => {
+                    onConfirm();
+                    onClose();
+                  }}
+                >
+                  Confirm
+                </button>
+
+                <button className="btn focus:outline-none" onClick={onClose}>
+                  Close
+                </button>
+              </>
+            ) : null}
+
+            {type === "message" ? (
+              <button className="btn focus:outline-none" onClick={onClose}>
+                Close
               </button>
             ) : null}
-            <button className="btn focus:outline-none" onClick={onClose}>
-              Close
-            </button>
           </form>
         </div>
       </div>

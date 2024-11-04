@@ -2,6 +2,7 @@
 
 import DialogModal from "@/app/components/DialogModal";
 import InputField from "@/app/components/InputField";
+import TruckLoadPDF from "@/app/components/PDF/TruckLoadPDF";
 import Driver from "@/app/types/Driver";
 import ErrorMessage from "@/app/types/ErrorMessage";
 import LoadItem from "@/app/types/LoadItem";
@@ -20,9 +21,9 @@ const EditTruckLoadPage = () => {
   const [drivers, setDrivers] = useState<Driver[]>();
 
   const [dialogModalMessage, setDialogModalMessage] = useState("");
-  const [dialogModalType, setDialogModalType] = useState<"message" | "confirm">(
-    "message",
-  );
+  const [dialogModalType, setDialogModalType] = useState<
+    "message" | "confirm" | "pdf"
+  >("message");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true);
@@ -143,6 +144,30 @@ const EditTruckLoadPage = () => {
   };
 
   const handleDialogModalClose = () => {
+    setIsDialogOpen(false);
+  };
+
+  const handleDialogModalCloseWithFormReset = () => {
+    setTruckLoadData({
+      startDate: "",
+      endDate: "",
+      startTime: "",
+      endTime: "",
+      incomePerKilometer: 0,
+      driver: drivers ? drivers[0] : generateDefaultDriver(),
+    });
+    setSelectedDriverId(drivers && drivers[0].id ? drivers[0].id : 0);
+    setLoadItems([]);
+    setLoadItemData(() => generateDefaultLoadItem());
+    setTruckLoadDateForSearch("");
+    setLoadedTruckLoads([]);
+    setSelectedTruckLoad(null);
+    setSelectedTableRowTruckLoad(-1);
+    setSelectedLoadItem(null);
+    setSelectedTableRowTruckLoad(-1);
+    setIsFormDisabled(true);
+    setIsSaveButtonDisabled(true);
+
     setIsDialogOpen(false);
   };
 
@@ -589,26 +614,6 @@ const EditTruckLoadPage = () => {
       endDateYear + "-" + endDateMonth + "-" + endDateDay;
 
     try {
-      setTruckLoadData({
-        startDate: "",
-        endDate: "",
-        startTime: "",
-        endTime: "",
-        incomePerKilometer: 0,
-        driver: drivers ? drivers[0] : generateDefaultDriver(),
-      });
-      setSelectedDriverId(drivers && drivers[0].id ? drivers[0].id : 0);
-      setLoadItems([]);
-      setLoadItemData(() => generateDefaultLoadItem());
-      setTruckLoadDateForSearch("");
-      setLoadedTruckLoads([]);
-      setSelectedTruckLoad(null);
-      setSelectedTableRowTruckLoad(-1);
-      setSelectedLoadItem(null);
-      setSelectedTableRowTruckLoad(-1);
-      setIsFormDisabled(true);
-      setIsSaveButtonDisabled(true);
-
       const token = getTokenClientSide();
 
       const request = {
@@ -636,7 +641,7 @@ const EditTruckLoadPage = () => {
 
       const result = await response.text();
 
-      setDialogModalType("message");
+      setDialogModalType("pdf");
       setDialogModalMessage(result);
       setIsDialogOpen(true);
     } catch (error: unknown) {
@@ -968,7 +973,15 @@ const EditTruckLoadPage = () => {
         message={dialogModalMessage}
         isOpen={isDialogOpen}
         onClose={handleDialogModalClose}
+        onCloseWithFormReset={handleDialogModalCloseWithFormReset}
         type={dialogModalType}
+        pdfDocument={
+          <TruckLoadPDF
+            heading="Edit truck load"
+            truckLoadData={truckLoadData}
+            loadItems={loadItems}
+          />
+        }
       />
     </main>
   );

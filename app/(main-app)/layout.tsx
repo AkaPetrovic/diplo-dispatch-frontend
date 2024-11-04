@@ -4,7 +4,7 @@ import "../globals.css";
 import Header from "../components/Header";
 
 const SFPro = localFont({
-  src: "../fonts/SF-Pro.ttf",
+  src: "../../public/fonts/SF-Pro.ttf",
   variable: "--font-sf-pro",
 });
 

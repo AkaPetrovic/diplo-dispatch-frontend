@@ -5,7 +5,7 @@ import background from "@/public/background.jpg";
 import Image from "next/image";
 
 const SFPro = localFont({
-  src: "../fonts/SF-Pro.ttf",
+  src: "../../public/fonts/SF-Pro.ttf",
   variable: "--font-sf-pro",
 });
 

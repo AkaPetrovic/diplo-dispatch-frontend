@@ -2,6 +2,7 @@
 
 import DialogModal from "@/app/components/DialogModal";
 import InputField from "@/app/components/InputField";
+import TruckLoadPDF from "@/app/components/PDF/TruckLoadPDF";
 import Driver from "@/app/types/Driver";
 import LoadItem from "@/app/types/LoadItem";
 import TruckLoad from "@/app/types/TruckLoad";
@@ -13,15 +14,16 @@ import {
 } from "@/app/utility/default-value-generation";
 import { hasMoreThanNSlashes, removeLeadingZeros } from "@/app/utility/helper";
 import { isValidDate, isValidTime } from "@/app/utility/validation";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 import { useEffect, useState } from "react";
 
 const AddTruckLoadPage = () => {
   const [drivers, setDrivers] = useState<Driver[]>();
 
   const [dialogModalMessage, setDialogModalMessage] = useState("");
-  const [dialogModalType, setDialogModalType] = useState<"message" | "confirm">(
-    "message",
-  );
+  const [dialogModalType, setDialogModalType] = useState<
+    "message" | "confirm" | "pdf"
+  >("message");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true);
@@ -141,6 +143,23 @@ const AddTruckLoadPage = () => {
   };
 
   const handleDialogModalClose = () => {
+    setIsDialogOpen(false);
+  };
+
+  const handleDialogModalCloseWithFormReset = () => {
+    setTruckLoadData({
+      startDate: "",
+      endDate: "",
+      startTime: "",
+      endTime: "",
+      incomePerKilometer: 0,
+      driver: drivers ? drivers[0] : generateDefaultDriver(),
+    });
+    setSelectedDriverId(drivers && drivers[0].id ? drivers[0].id : 0);
+    setLoadItems([]);
+    setLoadItemData(() => generateDefaultLoadItem());
+    setIsSaveButtonDisabled(true);
+
     setIsDialogOpen(false);
   };
 
@@ -318,20 +337,20 @@ const AddTruckLoadPage = () => {
 
   const validateInput = () => {
     if (!isValidDate(truckLoadData.startDate)) {
-      setErrorMessage("Start date is not a valid date");
+      setErrorMessage("Departure date is not a valid date");
       return false;
     }
     if (!isValidDate(truckLoadData.endDate)) {
-      setErrorMessage("End date is not a valid date");
+      setErrorMessage("Arrival date is not a valid date");
       return false;
     }
 
     if (!isValidTime(truckLoadData.startTime)) {
-      setErrorMessage("Start time is not valid.");
+      setErrorMessage("Departure time is not valid.");
       return false;
     }
     if (!isValidTime(truckLoadData.endTime)) {
-      setErrorMessage("End time is not valid.");
+      setErrorMessage("Arrival time is not valid.");
       return false;
     }
 
@@ -344,7 +363,7 @@ const AddTruckLoadPage = () => {
     const endDate = new Date(`${endYear}-${endMonth}-${endDay}`);
 
     if (endDate < startDate) {
-      setErrorMessage("End date cannot be before start date");
+      setErrorMessage("Arrival date cannot be before Departure date");
       return false;
     }
 
@@ -360,7 +379,7 @@ const AddTruckLoadPage = () => {
         (endHour === startHour && endMinute <= startMinute)
       ) {
         setErrorMessage(
-          "End time must be after start time when the dates are the same",
+          "Arrival time must be after departure time when the dates are the same",
         );
         return false;
       }
@@ -384,19 +403,6 @@ const AddTruckLoadPage = () => {
       endDateYear + "-" + endDateMonth + "-" + endDateDay;
 
     try {
-      setTruckLoadData({
-        startDate: "",
-        endDate: "",
-        startTime: "",
-        endTime: "",
-        incomePerKilometer: 0,
-        driver: drivers ? drivers[0] : generateDefaultDriver(),
-      });
-      setSelectedDriverId(drivers && drivers[0].id ? drivers[0].id : 0);
-      setLoadItems([]);
-      setLoadItemData(() => generateDefaultLoadItem());
-      setIsSaveButtonDisabled(true);
-
       const token = getTokenClientSide();
 
       const request = {
@@ -424,8 +430,8 @@ const AddTruckLoadPage = () => {
 
       const result = await response.text();
 
-      setDialogModalType("message");
-      setDialogModalMessage(result);
+      setDialogModalType("pdf");
+      setDialogModalMessage(result + " Do you want to download a PDF?");
       setIsDialogOpen(true);
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -439,7 +445,7 @@ const AddTruckLoadPage = () => {
   return (
     <main className="flex h-full w-full flex-col items-center justify-center">
       <div className="w-3/5 min-w-fit px-6 py-3 shadow 3xl:w-1/4 3xl:px-8 3xl:py-5">
-        <div className="flex flex-col">
+        <div className="flex grow flex-col">
           <h1 className="mb-2">Add new truck load</h1>
           <p className="w-full max-w-xs text-sm">
             Fields marked with * are required
@@ -670,7 +676,15 @@ const AddTruckLoadPage = () => {
         message={dialogModalMessage}
         isOpen={isDialogOpen}
         onClose={handleDialogModalClose}
+        onCloseWithFormReset={handleDialogModalCloseWithFormReset}
         type={dialogModalType}
+        pdfDocument={
+          <TruckLoadPDF
+            heading="Add truck load"
+            truckLoadData={truckLoadData}
+            loadItems={loadItems}
+          />
+        }
       />
     </main>
   );
